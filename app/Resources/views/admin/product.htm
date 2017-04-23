@@ -1,0 +1,32 @@
+{% extends('admin/base.htm') %}
+
+{% block page %}
+    {% for msg in app.session.flashBag.get('success') %}
+        <div class="login-err text-success">
+            {{ msg }}
+        </div>
+    {% endfor %}
+
+	<div class="block-header">
+        <h2>Product</h2>
+    </div>
+
+    <div class="row" id="uprofile">
+    	<div class="col-md-12">
+            {{ form_start(form) }}
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+
+                <div class="row">
+                    <label class="col-md-4">Category</label>
+                    <div class="form-group col-md-8">
+                        <select name="category" class="form-controll">
+                            {% for cat in categories %}
+                                <option value="{{ cat.id }}" {% if (category is defined) and (category.id == cat.id) %} selected="selected" {% endif %}>{{ cat.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+    	</div>
+    </div>
+{% endblock %}

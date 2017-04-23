@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>{% if shopName is defined %} {{ shopName }} | {% endif %}{{ project_name }}</title>
+
+    {% include 'admin/sections/fonts.htm' %}
+    {% include 'admin/sections/css.htm' %}
+    {% include 'admin/sections/special.htm' %}
+
+</head>
+
+<body class="theme-red">
+
+    {% include 'admin/sections/loader.htm' %}
+    {% include 'admin/sections/topbar.htm' %}
+
+    {% include 'admin/sections/sidebar.htm' %}
+
+    <section class="content">
+
+        <div class="container-fluid main-page">
+        
+            {% block page %}{% endblock %}
+
+        </div>
+
+        {% include 'admin/sections/footer.htm' %}
+    </section>
+
+    {% include 'admin/sections/js.htm' %}
+</body>
+
+</html>

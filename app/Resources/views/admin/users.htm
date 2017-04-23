@@ -1,0 +1,53 @@
+{% extends('admin/base.htm') %}
+
+{% block page %}
+    {% for msg in app.session.flashBag.get('error') %}
+        <div class="login-err text-danger">
+            {{ msg }}
+        </div>
+    {% endfor %}
+
+	<div class="block-header">
+        <h2>Our users</h2>
+    </div>
+
+    <div class="row">
+    	<div class="col-md-12">
+            
+            <div>
+                <a href="/admin/user/add" class="btn btn-success btn-add">CREATE USER</a>
+            </div>
+
+            <div class="body table-responsive">
+                <table class="table table-bordered table-hover">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Full Name</th>
+                            <th>E-Mail / Username</th>
+                            <th>ROLES</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for usr in users %}
+                            <tr>
+                                <td style="vertical-align: middle;">{{ usr.id }}</td>
+                                <td style="vertical-align: middle;"><a href="/admin/user/{{ usr.id }}">{{ usr.fullname }}</a></td>
+                                <td style="vertical-align: middle;">{{ usr.email }}</td>
+                                <td style="vertical-align: middle;">{{ usr.getUserRoles() }}</td>
+                                <td style="vertical-align: middle;"><a href="/admin/user/{{ usr.id }}">EDIT</a></td>
+                                <td style="vertical-align: middle;"><a href="/admin/user/delete/{{ usr.id }}">DELETE</td>
+                            </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+    	</div>
+    </div>
+{% endblock %}

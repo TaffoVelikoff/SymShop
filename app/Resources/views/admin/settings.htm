@@ -1,0 +1,38 @@
+{% extends('admin/base.htm') %}
+
+{% block page %}
+    {% for msg in app.session.flashBag.get('success') %}
+        <div class="login-err text-success">
+            {{ msg }}
+        </div>
+    {% endfor %}
+
+	<div class="block-header">
+        <h2>SETTINGS</h2>
+    </div>
+
+    <div class="row">
+    	<div class="col-md-12">
+    		Shop address and settings.
+    	</div>
+    </div>
+
+    <div class="row">
+    	<div class="col-md-12">
+            {{ form_start(form) }}
+                
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+                {{ form_row(form.shopname) }}
+                {{ form_row(form.address) }}
+                {{ form_row(form.globalpromo) }}
+
+                <div class="row">
+                    <br/>
+                    <div class="form-group col-md-12 text-center">
+                        <input type="submit" value="Save" class="btn btn-success" />
+                    </div>
+                </div>
+            {{ form_end(form) }}
+    	</div>
+    </div>
+{% endblock %}

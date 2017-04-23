@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Welcome To | Bootstrap Based Admin Template - Material Design</title>
+
+    {% include 'admin/sections/fonts.htm' %}
+    {% include 'admin/sections/css.htm' %}
+
+</head>
+
+<body class="login-page">
+    <div class="login-box">
+
+        <div class="logo">
+            <a href="javascript:void(0);">SymfonyShop</a>
+            <small>Softuni Project by Taffo Velikoff</small>
+        </div>
+
+        <div class="card" style="margin-top: 38px;">
+
+            <div class="body">
+
+            	{{ form_start(form) }}
+            		{% if error %}
+			        	<div class="login-err text-danger">
+			        		{{ error.messageKey|trans(error.messageData, 'security') }}
+			        	</div>
+			        {% endif %}
+
+            		<div class="msg">Sign in to webshop</div>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+
+            		<div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">person</i>
+                        </span>
+
+                        <div class="form-line">
+            				{{ form_row(form._username) }}
+            			</div>
+            		</div>
+
+            		<div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">lock</i>
+                        </span>
+                        
+                        <div class="form-line">
+            				{{ form_row(form._password) }}
+            			</div>
+            		</div>
+            		
+            		<button class="btn btn-block bg-pink waves-effect" type="submit">SIGN IN</button>
+            	{{ form_end(form) }}	
+
+            </div>
+        </div>
+    </div>
+
+    {% include 'admin/sections/js.htm' %}
+
+</body>
+
+</html>

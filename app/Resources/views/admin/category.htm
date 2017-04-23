@@ -1,0 +1,21 @@
+{% extends('admin/base.htm') %}
+
+{% block page %}
+    {% for msg in app.session.flashBag.get('success') %}
+        <div class="login-err text-success">
+            {{ msg }}
+        </div>
+    {% endfor %}
+
+	<div class="block-header">
+        <h2>Category</h2>
+    </div>
+
+    <div class="row" id="uprofile">
+    	<div class="col-md-12">
+            {{ form_start(form) }}
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+            {{ form_end(form) }}
+    	</div>
+    </div>
+{% endblock %}

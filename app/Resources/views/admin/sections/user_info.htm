@@ -1,0 +1,19 @@
+<!-- User Info -->
+<div class="user-info">
+
+    <div class="info-container">
+        <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ app.user.fullname }}</div>
+        <div class="email">{{ app.user.email }}</div>
+        <div class="btn-group user-helper-dropdown">
+            <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
+            <ul class="dropdown-menu pull-right">
+                <li><a href="/admin/user/{{ app.user.id }}"><i class="material-icons">person</i>Profile</a></li>
+                <li role="seperator" class="divider"></li>
+                <li><a href="{{ url('settings') }}"><i class="material-icons">settings</i>Settings</a></li>
+                <li role="seperator" class="divider"></li>
+                <li><a href="{{ url('auth_logout') }}"><i class="material-icons">input</i>Sign Out</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- #User Info -->

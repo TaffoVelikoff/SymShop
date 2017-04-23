@@ -1,0 +1,80 @@
+{% extends('admin/base.htm') %}
+
+{% block page %}
+    {% for msg in app.session.flashBag.get('error') %}
+        <div class="login-err text-danger">
+            {{ msg }}
+        </div>
+    {% endfor %}
+
+    {% for msg in app.session.flashBag.get('success') %}
+        <div class="login-err text-success">
+            {{ msg }}
+        </div>
+    {% endfor %}
+
+	<div class="block-header">
+        <h2>Shop Categories</h2>
+    </div>
+
+    <div class="row">
+    	<div class="col-md-12">
+            
+            <div>
+                <a href="/admin/category/add" class="btn btn-success btn-add">CREATE CATEGORY</a>
+            </div>
+
+            <div class="body table-responsive">
+                <table class="table table-bordered table-hover">
+
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Products</th>
+                            <th colspan="2"> Order </th>
+                            <th colspan="3">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for cat in categories %}
+                            <tr>
+                                <td style="vertical-align: middle; width: 82%;"><a href="/admin/products/{{ cat.id }}">{{ cat.name }}</a></td>
+                                <td style="vertical-align: middle; width: 6%;">
+                                    {{ cat.getProductsCount() }}
+                                </td>
+                                <td style="vertical-align: middle; width: 3%;">
+                                    {% if cat.nextOrd() %}
+                                        <a href="/admin/category/moveup/{{ cat.id }}"><i class="fa fa-arrow-up fa-x2"></i></a>
+                                    {% endif %}
+                                </td>
+                                <td style="vertical-align: middle; width: 3%;">
+                                    {% if cat.PrevOrd() %}
+                                        <a href="/admin/category/movedown/{{ cat.id }}"><i class="fa fa-arrow-down fa-x2"></i></a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="/admin/addproduct/{{ cat.id }}">
+                                        <i class="fa fa-plus"></i>
+                                    </a>
+                                </td>
+                                <td style="vertical-align: middle; width: 3%;">
+                                    <a href="/admin/category/{{ cat.id }}">
+                                        <i class="fa fa-pencil fa-x2"></i>
+                                    </a>
+                                </td>
+                                <td style="vertical-align: middle; width: 3%;">
+                                    <a href="/admin/category/delete/{{ cat.id }}">
+                                        <i class="fa fa-trash-o fa-x2"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+    	</div>
+    </div>
+{% endblock %}

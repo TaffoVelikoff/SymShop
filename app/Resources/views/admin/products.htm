@@ -1,0 +1,83 @@
+{% extends('admin/base.htm') %}
+
+{% block page %}
+    {% for msg in app.session.flashBag.get('error') %}
+        <div class="login-err text-danger">
+            {{ msg }}
+        </div>
+    {% endfor %}
+
+    {% for msg in app.session.flashBag.get('success') %}
+        <div class="login-err text-success">
+            {{ msg }}
+        </div>
+    {% endfor %}
+
+	<div class="block-header">
+        <h2>{{ cat.name }}</h2>
+    </div>
+
+    <div class="row">
+    	<div class="col-md-12">
+            
+            <div>
+                <a href="/admin/addproduct/{{ cat.id }}" class="btn btn-success btn-add">ADD PRODUCT</a>
+            </div>
+
+            <div class="body table-responsive">
+                <table class="table table-bordered table-hover">
+
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>In Stock</th>
+                            <th colspan="2"> Order </th>
+                            <th colspan="2">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for pr in products %}
+                            <tr>
+                                <td style="vertical-align: middle; width: 80%;"><a href="/admin/product/{{ pr.id }}">{{ pr.name }}</a></td>
+                                <td style="vertical-align: middle; width: 8%;">
+                                    {% if pr.getQuantity() > 0 %}
+                                        <span class="text-success">YES</span>
+                                    {% else %}
+                                        <span class="text-danger">NO</span>
+                                    {% endif %}
+                                </td>
+                                <td style="vertical-align: middle; width: 3%;">
+                                    {% if pr.nextOrd() %}
+                                        <a href="/admin/product/moveup/{{ pr.id }}"><i class="fa fa-arrow-up fa-x2"></i></a>
+                                    {% endif %}
+                                </td>
+                                <td style="vertical-align: middle; width: 3%;">
+                                    {% if pr.PrevOrd() %}
+                                        <a href="/admin/product/movedown/{{ pr.id }}"><i class="fa fa-arrow-down fa-x2"></i></a>
+                                    {% endif %}
+                                </td>
+                                <td style="vertical-align: middle; width: 3%;">
+                                    <a href="/admin/product/{{ pr.id }}">
+                                        <i class="fa fa-pencil fa-x2"></i>
+                                    </a>
+                                </td>
+                                <td style="vertical-align: middle; width: 3%;">
+                                    <a href="/admin/product/delete/{{ pr.id }}">
+                                        <i class="fa fa-trash-o fa-x2"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <center><a href="/admin/categories" class="btn btn-success btn-add">GO BACK</a></center>
+            </div>
+    	</div>
+    </div>
+{% endblock %}

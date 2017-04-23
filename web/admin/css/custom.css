@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css?family=Arimo');
+
+/* MAIN */
+.main-page {
+	background-color: white;
+	padding: 24px;
+	margin-bottom: 24px;
+	margin-top: -12px;
+}
+
+table {
+	font-family: "Roboto", sans-serif;
+}
+
+body {
+	font-weight: normal !important;
+	font-family: 'Arimo', sans-serif !important;
+}
+
+hr {
+	width: 80%;
+}
+
+h3 {
+	font-weight: 100 !important;
+}
+
+h5 {
+	font-weight: 100 !important;
+}
+
+.menu {
+	/*background-color: #2c2e2f;*/
+}
+
+.box-fix {
+	display: none;
+}
+
+@media (max-width: 767px) {
+	.box-fix {
+		display: block;
+	}
+}
+
+.btn-fix {
+	height: 6px;
+}
+
+.footer {
+	font-size: 0.9em;
+}
+
+.bg-darkblue {
+	background-color: #385868 !important;
+	color: white;
+}
+
+.bg-youred {
+	background-color: #cc3f44 !important;
+	color: white !important;
+}
+
+.bg-twitter {
+	background-color: #40bbea !important;
+	color: white !important;
+}
+
+.bg-soundcloud {
+	background-color: #f7aa47 !important;
+	color: white !important;
+}
+
+/* NAVBAR */
+.logo {
+	margin-top: -12px;
+	height: 46px;
+}
+
+.menu .material-icons {
+	margin-top: 7px !important;
+	font-size: 1.3em !important;
+}
+
+/* DASHBOX */
+.dashbox-footer {
+	font-size: 0.9em;
+	margin-top: -4px;
+	color: rgba(255, 255, 255, 0.7);
+}
+
+.dashbox-icon {
+	width: 40%;
+	float: left;
+	display: inline-block;
+}
+
+.dashbox-title {
+	width: 50%;
+	display: inline-block;
+	font-size: 1.7em;
+}
+
+.percent {
+	display: inline-block;
+}
+
+.demo-color-box {
+	text-transform: uppercase;
+	border-radius: 0px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Country List*/
+.country-list {
+	padding: 24px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.country-row {
+	border-top: 1px solid rgba(255, 255, 255, 0.4);
+	padding-top: 8px;
+	padding-bottom: 8px;
+	color: rgba(255, 255, 255, 0.9);
+}
+
+.visit-count {
+	float: right;
+}
+
+/* Login page */
+
+.login-err {
+	padding: 12px;
+	text-align: center;
+}
+
+.input-group input[type="text"], .input-group .form-control {
+	border: 1px solid #e6e6e6;
+	margin-left: 12px;
+	width: 200px;
+	padding: 4px;
+}
+
+.input-group input[type="password"], .input-group .form-control {
+	border: 1px solid #e6e6e6;
+	margin-left: 15px;
+	width: 200px;
+	padding: 4px;
+}
+
+.input-group .form-line {
+	border: none;
+}
