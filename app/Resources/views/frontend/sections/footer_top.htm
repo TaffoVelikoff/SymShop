@@ -1,0 +1,41 @@
+<div class="footer-top-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="footer-about-us">
+                    <h2><span>{{ shopName }}</span></h2>
+                    <p>Our location: {{ shopAddress }}</p>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6">
+                <div class="footer-menu">
+                    <h2 class="footer-wid-title">User Navigation </h2>
+                    <ul>
+                        {% if app.user %}
+                            <li><a href="#"><i class="fa fa-user"></i> My Account</a></li>
+                            <li><a href="cart.html"><i class="fa fa-cart-arrow-down"></i> Cart</a></li>
+                            <li><a href="/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+                        {% else %}
+                            <li><a href="/login"><i class="fa fa-sign-in"></i> Login</a></li>
+                            <li><a href="/login"><i class="fa fa-user-plus"></i> Register</a></li>
+                        {% endif %}
+                    </ul>                        
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-sm-6">
+                <div class="footer-menu">
+                    <h2 class="footer-wid-title">Categories</h2>
+                    <ul>
+                        {% for cat in shopCats %}
+                            <li><a href="/category/{{ cat.id }}">{{ cat.name }}</a></li>
+                        {% endfor %}
+                    </ul>                        
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div> <!-- End footer top area -->

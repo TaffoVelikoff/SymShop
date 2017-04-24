@@ -1,0 +1,21 @@
+<div class="header-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="user-menu">
+                    <ul>
+                        {% if app.user %}
+                            <li><a href="#"><i class="fa fa-user"></i> My Account</a></li>
+                            <li><a href="cart.html"><i class="fa fa-cart-arrow-down"></i> Cart</a></li>
+                            <li><a href="/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+                        {% else %}
+                            <li><a href="/login"><i class="fa fa-sign-in"></i> Login</a></li>
+                            <li><a href="/login"><i class="fa fa-user-plus"></i> Register</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div> <!-- End header area -->

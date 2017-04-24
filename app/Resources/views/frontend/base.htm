@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if shopName is defined %} {{ shopName }} | {% endif %}{{ project_name }}</title>
+    
+   {% include 'frontend/sections/css.htm' %}
+   {% include 'frontend/sections/fonts.htm' %}
+  </head>
+  <body>
+   
+    {% include 'frontend/sections/header.htm' %}
+    {% include 'frontend/sections/branding.htm' %}
+    {% include 'frontend/sections/menu.htm' %}
+    
+    {% block page %}{% endblock %}
+    
+    {% include 'frontend/sections/footer_top.htm' %}
+    {% include 'frontend/sections/footer_bottom.htm' %}
+    {% include 'frontend/sections/js.htm' %}
+  </body>
+</html>

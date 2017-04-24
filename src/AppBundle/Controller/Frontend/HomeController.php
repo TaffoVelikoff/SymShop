@@ -12,12 +12,10 @@
 		*/
 		public function index(){
 			
-			echo 'home'; exit;
-			// Get twig
+			// Doctrine
+			$em = $this->getDoctrine()->getManager();
 
-			return $this->render('admin/base.html.twig', array(
-			    'variable_name' => 'variable_value',
-			));
+			return $this->render('frontend/index.htm');
 		}
 
 	}
