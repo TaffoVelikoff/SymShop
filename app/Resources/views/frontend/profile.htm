@@ -38,6 +38,7 @@
                                             <th>Date</th>
                                             <th>Products</th>
                                             <th>Price</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
 
@@ -46,7 +47,8 @@
                                             <tr>
                                                 <td>{{ ord.confirmed('d M Y') }}</td>
                                                 <td>{{ cartRepo.getProductsCount(ord.id)}}</td>
-                                                <td>{{ cartRepo.getTotalPrice(ord.id)|number_format(2) }} BGN</td>
+                                                <td>{{ cartRepo.getTotalPrice(ord.id)|number_format(2) }} BGN </td>
+                                                <th>{% if ord.status == 0 %} <span class="text-primary">PROCESSING</span> {% else %} <span class="text-success">CONFIRMED</span> {% endif %}</th>
                                             </tr>
                                         {% endfor %}
                                     </tbody>

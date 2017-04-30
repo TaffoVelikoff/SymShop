@@ -20,7 +20,7 @@
                             <th>Price</th>
                            	<th>Confirmed</th>
                            	{% if is_granted('ROLE_ADMIN') %}
-                                <th>Actions</th>
+                                <th colspan="3">Actions</th>
                             {% endif %}
                         </tr>
                     </thead>
@@ -35,6 +35,8 @@
                                 <td>{{ cartRepo.getTotalPrice(cart.id)|number_format(2) }} BGN</td>
 		                       	<td>{{ cart.confirmed('d M Y') }}</td>
 		                       	{% if is_granted('ROLE_ADMIN') %}
+                                    <td><a href="/admin/order/{{ cart.id }}">VIEW</a></td>
+                                    <td><a href="/admin/confirm/{{ cart.id }}">CONFIRM</a></td>
                                     <td><a href="/admin/remove_cart/{{ cart.id }}">REMOVE</a></td>
                                 {% endif %}
 		                    </tr>

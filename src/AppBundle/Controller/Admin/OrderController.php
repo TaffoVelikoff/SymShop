@@ -12,6 +12,13 @@
 		*@Route("/admin/order/{id}")
 		*/
 		public function viewOrder($id, Request $request) {
+
+			// Check for editor
+			$roles = $this->get('security.token_storage')->getToken()->getUser()->getRoles();
+			if(!in_array('ROLE_ADMIN', $roles)) {
+				return $this->redirectToRoute('dashboard');
+			}
+			
 			// Doctrine
 			$em = $this->getDoctrine()->getManager();
 
@@ -38,6 +45,12 @@
 		*@Route("/admin/remove_cart/{id}")
 		*/
 		public function removeCart($id, Request $request) {
+
+			// Check for editor
+			$roles = $this->get('security.token_storage')->getToken()->getUser()->getRoles();
+			if(!in_array('ROLE_ADMIN', $roles)) {
+				return $this->redirectToRoute('dashboard');
+			}
 
 			// Doctrine
 			$em = $this->getDoctrine()->getManager();
@@ -111,6 +124,25 @@
 
 			// Remove cart product
 			$em->remove($cprod);
+			$em->flush();
+
+			// Redirect bavk
+			return $this->redirect($request->headers->get('referer'));
+		}
+
+		/**
+		*@Route("/admin/confirm/{id}")
+		*/
+		public function confirm($id, Request $request) {
+
+			// Doctrine
+			$em = $this->getDoctrine()->getManager();
+
+			// Get cart
+			$cart = $em->getRepository('AppBundle:Cart')->findOneBy(['id' => $id]);
+
+			$cart->setStatus(1);
+			$em->persist($cart);
 			$em->flush();
 
 			// Redirect bavk

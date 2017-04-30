@@ -37,6 +37,11 @@ class Cart
     /**
      * @ORM\Column(type="string")
      */
+    private $status = 0;
+
+    /**
+     * @ORM\Column(type="string")
+     */
     private $deliveryPerson = '';
 
     /**
@@ -128,6 +133,15 @@ class Cart
 
     public function getDeliveryPhone() {
         return $this->deliveryPhone;
+    }
+
+    // Status
+    public function setStatus($status) {
+        return $this->status = $status;
+    }
+
+    public function getStatus(){
+        return $this->status;
     }
 
     // Payment

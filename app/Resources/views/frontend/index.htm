@@ -9,7 +9,7 @@
             {% for msg in app.session.flashBag.get('success') %}
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 class="section-title" style="color: blue;">s</h3>
+                        <h3 class="section-title" style="color: blue;">{{ msg }}</h3>
                     </div>
                 </div>
             {% endfor %}

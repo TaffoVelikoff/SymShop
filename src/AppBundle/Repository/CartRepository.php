@@ -53,6 +53,7 @@ class CartRepository extends \Doctrine\ORM\EntityRepository
                 ->select('c')
                 ->from('AppBundle:Cart', 'c')
                 ->where('c.confirmed > 0')
+                ->andWhere('c.status = 0')
                 ->getQuery()->getResult();
 
        return $carts;
@@ -67,6 +68,7 @@ class CartRepository extends \Doctrine\ORM\EntityRepository
                 ->from('AppBundle:Cart', 'c')
                 ->where('c.confirmed > 0')
                 ->andWhere('c.user = '.$user->getId())
+                ->addOrderBy('c.confirmed', 'DESC')
                 ->getQuery()->getResult();
 
         if(count($carts) > 0 ){
