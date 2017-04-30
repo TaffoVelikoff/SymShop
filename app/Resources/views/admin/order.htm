@@ -1,0 +1,67 @@
+{% extends('admin/base.htm') %}
+
+{% block page %}
+	<div class="block-header">
+        <h2>Order by {{ user.fullname }}</h2>
+    </div>
+
+    <div class="row">
+    	<div class="col-md-12">
+    		<div class="body table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <th>ORDER ID</th>
+                        <th>User ID</th>
+                        <th>Delivery Person</th>
+                        <th>Delivery Address</th>
+                        <th>Delivery Phone</th>
+                        <th>Delivery Email</th>
+                        <th>Ordered on</th>
+                        <th>Total Price</th>
+                    </thead>
+
+                    <tbody>
+                        <td>{{ cart.id }}</td>
+                        <td><a href="/admin/user/{{ user.id }}">{{ user.id }}</a> - {{ user.fullname }}</td>
+                        <td>{{ cart.deliveryPerson }}</td>
+                        <td>{{ cart.deliveryAddress }}</td>
+                        <td>{{ cart.deliveryPhone }}</td>
+                        <td>{{ cart.deliveryEmail }}</td>
+                        <td>{{ cart.confirmed('d M Y') }}</td>
+                        <td>{{ cartRepo.getTotalPrice(cart.id) }}</td>
+                    </tbody>
+                </table>
+            </div>
+    	</div>
+    </div>
+
+    <h3>Products</h3>
+     <div class="row">
+        <div class="col-md-12">
+            <div class="body table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+
+                    <tbody> 
+                        {% for prod in cartProds %} 
+                            <tr>
+                                <td><a href="/product/{{ prod.product.id }}" target="_blank">{{ prod.product.name }}</a></td>
+                                <td>{{ prod.quantity }}</td>
+                                <td>{{ prod.price|number_format(2) }} BGN</td>
+                                <td><a href="/admin/remove_from_cart/{{ prod.id }}/{{ user.id }}/{{ prod.product.id }}">Remove</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

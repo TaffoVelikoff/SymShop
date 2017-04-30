@@ -111,7 +111,7 @@ class Cart
     }
 
     public function getDeliveryAddress() {
-        return $this->deliveryAddres;
+        return $this->deliveryAddress;
     }
 
     public function setDeliveryEmail($deliveryEmail) {
