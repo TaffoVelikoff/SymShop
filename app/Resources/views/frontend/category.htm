@@ -1,0 +1,102 @@
+{% extends('frontend/base.htm') %}
+
+{% block page %}
+    <div class="product-big-title-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product-bit-title text-center">
+                        <h2>{{ category.name }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="single-product-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+
+            <div class="row promocat">
+                <div class="col-md-12">
+                    {% if category.promo > 0 %}
+                        <h2 class="text-center text-danger">-{{ category.promo }}% for all products in this category!</h2>
+                    {% endif  %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="product-breadcroumb">
+                    <a href="/">Home</a>
+                    <a href="/category/{{ category.id }}">{{ category.name }}</a>
+                </div>
+
+                {% if pcount > 0 %}
+                    {% for prod in prods %}
+                        <div class="col-md-3 col-sm-6">
+
+                            <div class="single-shop-product">
+                                <div class="product-upper" style="">
+                                    <a href="/product/{{ prod.id }}">
+                                        <img src="{{ asset('uploads/products_photos/' ~ prod.photo) }}" alt="{{ prod.name }}" class="catalog-image" style="max-height: 150px;">
+                                    </a>
+                                </div>
+
+                                <h2>
+                                    <a href="/product/{{ prod.id }}">{{ prod.name }}</a>
+                                </h2>
+
+                                <div class="product-carousel-price">
+                                    {% if prod.promoPercent > 0 %}
+                                        <ins style="color: red;">PROMO -{{ prod.promoPercent }}%</ins><br/>
+                                        <ins>{{ prod.actualPrice }} BGN</ins> <del>{{ prod.price }} BGN</del>
+                                    {% else %}
+                                        <ins>{{ prod.actualPrice }} BGN</ins>
+                                    {% endif %}
+                                </div>  
+                                
+                                <div class="product-option-shop">
+                                    {% if prod.quantity > 0 %}
+                                        <a class="add_to_cart_button" href="/add/{{ prod.id }}">Add to cart</a>
+                                    {% else %}
+                                        <span class="text-danger">UNAVAILABLE</span>
+                                    {% endif %}
+                                </div>                       
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h2 class="section-title">This category doesn't have any products yet ...</h2>
+                {% endif %}
+            </div>
+            
+            <!-- <div class="row">
+                <div class="col-md-12">
+                    <div class="product-pagination text-center">
+                        <nav>
+                          <ul class="pagination">
+                            <li>
+                              <a href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                              </a>
+                            </li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li>
+                              <a href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                              </a>
+                            </li>
+                          </ul>
+                        </nav>                        
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+{% endblock %}

@@ -12,8 +12,17 @@
 		*/
 		public function index() {
 
+			// Doctrine
+			$em = $this->getDoctrine()->getManager();
+
+			// Get all confirmed carts
+			$carts = $em->getRepository('AppBundle:Cart')->getConfirmedCarts();
+
 			// Display template
-			return $this->render('admin/dashboard.htm');
+			return $this->render('admin/dashboard.htm', [
+				'carts'		=> $carts,
+				'cartRepo'	=> $carts = $em->getRepository('AppBundle:Cart')
+			]);
 		}
 
 	}

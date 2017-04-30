@@ -82,17 +82,14 @@
 	    protected function getDefaultSuccessRedirectUrl()
 	    {	
 	    	// Get user role
-	    	$roles = $this->tokenStorage->getToken()->getUser()->getRoles();
+	    	$usr = $this->tokenStorage->getToken()->getUser();
+	    	$roles = $usr->getRoles();
 
-	    	// Redirect based on roles
-	    	if(in_array('ROLE_USER', $roles)) {
-	    		return $this->router->generate('home');
-	    	}
-	    	if(in_array('ROLE_ADMIN', $roles)) {
-	    		return $this->router->generate('dashboard');
-	    	} elseif(in_array('ROLE_EDITOR', $roles)) {
-	    		return $this->router->generate('dashboard');
-	    	}
+	    	// Create a cart for user or get last unconfirmed
+	    	$this->em->getRepository('AppBundle:User')->getCurrentCart($usr->getId());
+
+	    	// Redirect
+	    	return $this->router->generate('home');
 	    	
 		}
 	}

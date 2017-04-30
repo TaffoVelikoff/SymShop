@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
-class ProfileForm extends AbstractType
+class RegisterForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -30,17 +30,10 @@ class ProfileForm extends AbstractType
         ))->add('address', TextareaType::class, array(
             'label' => 'Delivery Address',
             'attr' => array('class' => 'form-control'),
-        ))->add('roles', ChoiceType::class, array(
-            'choices' => array('USER' => 'ROLE_USER', 'ADMIN' => 'ROLE_ADMIN', 'EDITOR' => 'ROLE_EDITOR'),
-            'multiple'  => true,
-            'attr' => array('class' => 'multiple-controll'),
-        ))->add('cash', TextType::class, array(
-            'label' => 'Cash in wallet',
-            'attr' => array('class' => 'form-control'),
         ))->add('password', PasswordType::class, array(
             'required'  => false,
             'attr' => array('class' => 'form-control'),
-        ))->add('save', SubmitType::class, array(
+        ))->add('Submit', SubmitType::class, array(
             'attr' => array('class' => 'btn btn-success', 'style' => 'margin-top: 24px;'),
         ));
     }

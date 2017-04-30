@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Cart;
+
 /**
  * UserRepository
  *
@@ -9,5 +11,44 @@ namespace AppBundle\Repository;
  * repository methods below.
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
-{
+{	
+
+	public function makeNewCart($user_id) {
+		$em = $this->getEntityManager();
+
+		// Get user
+		$usr = $em->getRepository('AppBundle:User')->findOneBy(['id' => $user_id]);
+
+		// Create cart
+		$cart = new Cart();
+
+		$cart->setUser($usr);
+		$cart->setConfirmed(0);
+
+		$em->persist($cart);
+		$em->flush();
+	}
+
+	// last unconfirmed cart
+	public function getCurrentCart($user_id) {
+
+		$em = $this->getEntityManager();
+
+        // Get max ord
+        $cart = $em->createQueryBuilder()
+                ->select('c')
+                ->from('AppBundle:Cart', 'c')
+                ->where('c.user = '.$user_id)
+                ->andWhere('c.confirmed = 0')
+                ->addOrderBy('c.id', 'DESC')
+                ->setMaxResults(1)
+                ->getQuery()->getResult();
+
+        if(empty($cart)){
+        	$this->makeNewCart($user_id);
+        } else {
+        	return $cart[0];
+        }
+	    
+	}
 }

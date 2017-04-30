@@ -22,6 +22,7 @@
             {{ form_start(form) }}
                 
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+                
                 {{ form_row(form.shopname) }}
                 {{ form_row(form.address) }}
                 {{ form_row(form.globalpromo) }}

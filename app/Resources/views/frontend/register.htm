@@ -1,0 +1,23 @@
+{% extends('frontend/base.htm') %}
+
+{% block page %}
+    <div class="maincontent-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container text-center">
+           
+           <div class="box">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>REGISTER</h1>
+                    </div>
+                </div>
+
+                {{ form_start(form) }}
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+                {{ form_end(form) }}
+                
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

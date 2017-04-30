@@ -49,12 +49,12 @@
                                     {% endif %}
                                 </td>
                                 <td style="vertical-align: middle; width: 3%;">
-                                    {% if pr.nextOrd() %}
+                                    {% if pr.ord != onTop %}
                                         <a href="/admin/product/moveup/{{ pr.id }}"><i class="fa fa-arrow-up fa-x2"></i></a>
                                     {% endif %}
                                 </td>
                                 <td style="vertical-align: middle; width: 3%;">
-                                    {% if pr.PrevOrd() %}
+                                    {% if pr.ord != onBottom %}
                                         <a href="/admin/product/movedown/{{ pr.id }}"><i class="fa fa-arrow-down fa-x2"></i></a>
                                     {% endif %}
                                 </td>

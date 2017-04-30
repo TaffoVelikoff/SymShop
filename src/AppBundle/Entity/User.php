@@ -7,6 +7,7 @@ use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
@@ -39,13 +40,21 @@ class User implements UserInterface
     private $address;
 
     /**
+     * Phone
+     *
+     * @Assert\NotBlank()
+     * @ORM\Column(type="string")
+     */
+    private $phone;
+
+    /**
      * User Cash
      *
      * @Assert\NotBlank()
-     * @Assert\Range( min = 0, max = 500, maxMessage = "Users should not have more than 500 BGN in wallet.", minMessage = "Users can not have a negative sum in their wallets ...")
+     * @Assert\Range( min = 0, max = 2000, maxMessage = "Users should not have more than 2000 BGN in wallet.", minMessage = "Users can not have a negative sum in their wallets ...")
      * @ORM\Column(type="float")
      */
-    private $cash;
+    private $cash = 2000;
 
     /**
      * @Assert\NotBlank()
@@ -73,7 +82,17 @@ class User implements UserInterface
      * @Assert\NotBlank()
      * @ORM\Column(type="json_array")
      */
-    private $roles = [];
+    private $roles = ['ROLE_USER'];
+
+    /**
+     * @ORM\OneToMany(targetEntity="Cart", mappedBy="user")
+     * @ORM\OrderBy({"confirmed"="DESC"})
+     */
+    private $carts;
+
+    public function __construct() {
+        $this->carts = new ArrayCollection();
+    }
 
     // needed by the security system
     public function getUsername()
@@ -166,6 +185,15 @@ class User implements UserInterface
 
     public function setCash($cash) {
         $this->cash = $cash;
+    }
+
+    // Phone
+    public function getPhone() {
+        return $this->phone;
+    }
+
+    public function setPhone($phone) {
+        $this->phone = $phone;
     }
 
     // Roles

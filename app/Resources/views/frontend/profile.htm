@@ -1,0 +1,62 @@
+{% extends('frontend/base.htm') %}
+
+{% block page %}
+    <div class="maincontent-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container text-center">
+           
+            {% for msg in app.session.flashBag.get('success') %}
+                <div class="login-err text-success">
+                    {{ msg }}
+                </div>
+                <br/>
+            {% endfor %}
+
+           <div class="box">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>{{ app.user.fullname }}</h1>
+                    </div>
+                </div>
+
+                {{ form_start(form) }}
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+                {{ form_end(form) }}
+                
+            </div>
+
+            {% if orders != false %}
+                <div class="box">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1>Order history</h1>
+
+                            <div class="body table-responsive order-history">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Products</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for ord in orders %}
+                                            <tr>
+                                                <td>{{ ord.confirmed('d M Y') }}</td>
+                                                <td>{{ cartRepo.getProductsCount(ord.id)}}</td>
+                                                <td>{{ cartRepo.getTotalPrice(ord.id)|number_format(2) }} BGN</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}

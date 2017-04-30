@@ -1,0 +1,126 @@
+{% extends('frontend/base.htm') %}
+
+{% block page %}
+    <div class="product-big-title-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product-bit-title text-center">
+                        <h2>{{ prod.name }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="single-product-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="product-content-right">
+                        <div class="product-breadcroumb">
+                            <a href="/">Home</a>
+                            <a href="/category/{{ category.id }}">{{ category.name }}</a>
+                            <a href="/product/{{ prod.id }}">{{ prod.name }}</a>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <div class="product-images">
+
+                                    <div class="product-main-img">
+                                        <img src="{{ asset('uploads/products_photos/' ~ prod.photo) }}" alt="{{ prod.name }}" class="catalog-image" style="max-height: 450px;">
+                                    </div>
+                        
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-7">
+                                <div class="product-inner">
+                                    <h2 class="product-name">{{ prod.name }}</h2>
+                                    <div class="product-inner-price">
+                                        {% if prod.promoPercent > 0 %}
+                                            <ins style="color: red;">PROMO -{{ prod.promoPercent }}%</ins><br/>
+                                            <ins>{{ prod.actualPrice }} BGN</ins> <del>{{ prod.price }} BGN</del>
+                                        {% else %}
+                                            <ins>{{ prod.actualPrice }} BGN</ins>
+                                        {% endif %}
+                                    </div>    
+                                    
+                                    <form action="/add_to_cart" method="post" class="cart">
+                                    
+                                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+
+                                        {% if prod.quantity > 0 %}
+                                            <div class="quantity">
+                                                <input type="number" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1" max="{{ prod.quantity }}">
+
+                                                <input type="hidden" name="product" value="{{ prod.id }}" />
+                                            </div>
+                                        
+                                            <button class="add_to_cart_button" type="submit">Add to cart</button>
+                                        {% endif %}
+                                    </form>   
+                                    
+                                    <div class="product-inner-category">
+                                        {% if prod.quantity > 0 %}
+                                            <p class="text-success">Available Quantity: {{ prod.quantity }} </p>
+                                        {% else %}
+                                            <p class="text-danger">Available Quantity: NOT AVAILABLE OR SOLD OUT</p>
+                                        {% endif %}
+                                        <p>Category: <a href="/category/{{ category.id }}">{{ category.name }}</a> </p>
+                                    </div> 
+                                    
+                                    <div role="tabpanel">
+                                        <ul class="product-tab" role="tablist"></ul>
+                                        <div class="tab-content">
+                                            <div role="tabpanel" class="tab-pane fade in active" id="home">
+                                                <h2>Product Description</h2>  
+                                                {{ prod.description|nl2br }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="related-products-wrapper">
+                            <h2 class="related-products-title">Latest products in this category</h2>
+                            <div class="related-products-carousel">
+
+                                {% for prd in related %}
+                                    <div class="single-product">
+                                        <div class="product-f-image">
+                                            <img src="{{ asset('uploads/products_photos/' ~ prd.photo) }}" alt="{{ prd.name }}" class="img-fix">
+                                            <div class="product-hover">
+                                                <a href="/product/{{ prd.id }}" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                                            </div>
+                                        </div>
+                                        
+                                        <h2><a href="/product/{{ prd.id }}">{{ prd.name }}</a></h2>
+                                        
+                                        <div class="product-carousel-price">
+                                            {% if prd.promoPercent > 0 %}
+                                                <ins style="color: red;">PROMO -{{ prd.promoPercent }}%</ins><br/>
+                                                <ins>{{ prd.actualPrice }} BGN</ins> <del>{{ prd.price }} BGN</del>
+                                            {% else %}
+                                                <ins>{{ prd.actualPrice }} BGN</ins>
+                                            {% endif %}
+                                        </div> 
+                                    </div>
+                                {% endfor %}   
+
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -152,3 +152,7 @@ h5 {
 .input-group .form-line {
 	border: none;
 }
+
+.prod-photo-admin {
+	width: 250px;
+}

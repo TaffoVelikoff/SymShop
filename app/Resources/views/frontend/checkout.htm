@@ -1,0 +1,87 @@
+{% extends('frontend/base.htm') %}
+
+{% block page %}
+    <div class="maincontent-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                	<h3 class="total-price"> CHECKOUT </h3>
+                </div>
+            </div>
+
+            <div class="row order">
+           		<div class="col-md-12 order-header">
+           			<div class="row">
+           				Total order cost: {{ totalPrice }} BGN
+           			</div>
+           			<div class="row">
+           				Total products: {{ cprodCount }}
+           			</div>
+           			<div class="row">
+           				<a href="{{ url('cart') }}">Edit the order</a>
+           			</div>
+           		</div>
+
+           		<div class="col-md-12 order-body text-center">
+           			<h4 class="nice-font upper">Delivery and payment details</h4>
+           			<div class="checkout-form">
+	           			<form action="/process_order" method="post">
+	           				<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+	           				<input type="hidden" name="cart" value="{{ cart.id }}" >
+
+	           				<div class="row">
+		           				<label class="col-md-12 text-left">Your Name</label>
+		           				<div class="col-md-12">
+		           					<input type="text" name="deliveryPerson" value="{{ app.user.fullname }}" class="form-control" />
+		           				</div>
+		           			</div>
+
+		           			<div class="row">
+		           				<label class="col-md-12 text-left">Delivery Address</label>
+		           				<div class="col-md-12">
+		           					<textarea name="deliveryAddress" class="form-control">{{ app.user.address }}</textarea>
+		           				</div>
+		           			</div>
+
+		           			<div class="row">
+		           				<label class="col-md-12 text-left">Your Phone</label>
+		           				<div class="col-md-12">
+		           					<input type="text" name="deliveryPhone" value="{{ app.user.phone }}" class="form-control" />
+		           				</div>
+		           			</div>
+
+		           			<div class="row">
+		           				<label class="col-md-12 text-left">Your E-Mail</label>
+		           				<div class="col-md-12">
+		           					<input type="text" name="deliveryEmail" value="{{ app.user.username }}" class="form-control" />
+		           				</div>
+		           			</div>
+
+		           			<div class="row">
+		           				<label class="col-md-12 text-left">Payment Type</label>
+		           				<div class="col-md-12 text-left">
+		           					<input type="radio" name="payment" value="1" checked="checked" /> Pay from wallet
+		           				</div>
+		           			</div>
+
+		           			{% if cart.payment == 'wallet' and app.user.cash > totalPrice %}
+		           				<div class="row padding-top">
+		           					<input type="submit" class="add_to_cart_button" name="action" value="BUY" />
+		           				</div>
+		           			{% else %}
+		           				<span class="text-danger nice-font">
+		           					<br/>
+		           					Sorry, but you don't have enought money in your wallet to finish this order.
+		           					<br/>
+		           				</span>
+		           				Go <a href="{{ url('cart') }}">back to cart</a> and remove some products or choose another payment method if available.
+		           			{% endif %}
+
+	           			</form>
+	           		</div>
+           		</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

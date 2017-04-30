@@ -5,9 +5,10 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductRepository")
  * @ORM\Table(name="products")
  * @UniqueEntity(fields={"name"}, message="This product already exists!")
  */
@@ -56,10 +57,25 @@ class Product
      */
     private $price = 1;
 
+    private $actualPrice = null;
+
+    /**
+     * @Assert\File(mimeTypes={ "image/png", "image/jpg", "image/jpeg" })
+     */
+    private $photoform;
+
+    /**
+     * @ORM\Column(type="string")
+     *
+     */
+    private $photo = '';
+
     /**
      * @ORM\Column(type="integer")
      */
     private $ord;
+
+    private $promoPercent = null;
 
     // Id
     public function getId() {
@@ -145,64 +161,54 @@ class Product
         }
     }
 
-    // Next free order
-    public function nextFreeOrd()
-    {   
-        global $kernel;
-        $em = $kernel->getContainer()->get( 'doctrine.orm.entity_manager' );
-
-        // Get max ord
-        $maxord = $em->createQueryBuilder()
-                ->select('MAX(b.ord)')
-                ->from('AppBundle:Product', 'b')
-                ->getQuery()
-                ->getSingleScalarResult();
-
-        return($maxord + 1);
-    }
-
-    // Select next order
-    public function nextOrd() {
-        global $kernel;
-        $em = $kernel->getContainer()->get( 'doctrine.orm.entity_manager' );
-
-        // Get max ord
-        $next = $em->createQueryBuilder()
-                ->select('c.id')
-                ->from('AppBundle:Product', 'c')
-                ->where('c.ord > '.$this->getOrd())
-                ->andWhere('c.category = '.$this->getCategoryId())
-                ->addOrderBy('c.ord', 'ASC')
-                ->setMaxResults(1)
-                ->getQuery()->getResult();
-
-        if(count($next) > 0) {
-            return $next[0]['id'];
+    // Photo
+    public function getPhoto()
+    {
+        if(!empty($this->photo)) {
+            return $this->photo;
         } else {
             return null;
-        }
+        } 
     }
 
-    // Select previous order
-    public function prevOrd() {
-        global $kernel;
-        $em = $kernel->getContainer()->get( 'doctrine.orm.entity_manager' );
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
 
-        // Get max ord
-        $next = $em->createQueryBuilder()
-                ->select('c.id')
-                ->from('AppBundle:Product', 'c')
-                ->where('c.ord < '.$this->getOrd())
-                ->andWhere('c.category = '.$this->getCategoryId())
-                ->addOrderBy('c.ord', 'DESC')
-                ->setMaxResults(1)
-                ->getQuery()->getResult();
-
-        if(count($next) > 0) {
-            return $next[0]['id'];
-        } else {
-            return null;
-        }
+        return $this;
     }
-   
+
+    public function getPhotoform() {
+        return $this->photoform;
+    }
+
+    public function setPhotoform($photoform) {
+      return $this->photoform = $photoform;
+    }
+
+    // Promo percent
+    public function getPromoPercent() {
+
+        $promos = array(
+            // product promo
+            $this->promo,
+            // category promo
+            $this->getCategory()->getPromo(),
+            // get global promo
+            $this->getCategory()->getSite()->getGlobalPromo()
+        );
+
+        return max($promos);
+    }
+
+    // Actual Price 
+    public function getActualPrice() {
+        $promo = $this->getPromoPercent();
+        $price = $this->getPrice();
+
+        $discounted = $price * 0.01 * $promo;
+        $actual = $price - $discounted;
+
+        return $actual;
+    }
 }

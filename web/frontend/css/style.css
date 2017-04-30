@@ -376,6 +376,8 @@ z-index: 999;}
 
 .product-f-image {
     position: relative;
+    height: 270px;
+    overflow: hidden;
 }
 .product-hover {
     height: 100%;
@@ -678,7 +680,7 @@ width: 10px;
   margin: 10px 0 0;
 }
 
-.product-big-title-area {background: url(img/crossword.png) repeat scroll 0 0 #5a88ca}
+.product-big-title-area {background: url(/frontend/img/crossword.png) repeat scroll 0 0 #5a88ca}
 
 .product-bit-title h2 {
   font-family: raleway;
@@ -1111,6 +1113,7 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 .single-shop-product h2 {
     font-size: 20px;
     margin: 10px 0;
+    height: 60px;
 }
 .product-option-shop {
     margin-top: 15px;
@@ -1120,4 +1123,117 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
 
 .pagination > li > a, .pagination > li > span {
   color: #5a88ca;
+}
+
+.input-text {
+  width: 100%;
+}
+
+.box {
+  margin: 0px auto;
+  padding: 12px;
+  background-color: #e6e6e6;
+  width: 50%;
+}
+
+label {
+  padding-top: 12px;
+}
+
+.fix-title {
+  padding-top: 6px;
+  color: #cc0000;
+}
+
+.img-fix {
+  position:absolute;
+  top:0;
+  bottom:0;
+  margin:auto;
+}
+
+.single-shop-product {
+  background-color: #f1f1f1;
+  padding: 16px;
+  text-align: center;
+  height: 350px;
+}
+
+.promocat {
+  padding: 16px;
+}
+
+.prodlist {
+  background-color: #f1f1f1;
+  padding: 24px;
+}
+
+.cart-product {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  vertical-align: middle;
+}
+
+.prod-column {
+  height: 90px;
+  line-height: 90px;
+  text-align: center;
+}
+
+.bigger {
+  font-size: 20px;
+}
+
+.total-cart-price {
+  padding: 24px;
+}
+
+.total-price {
+  font-family: "Raleway",sans-serif;
+}
+
+.can-buy {
+  color: blue;
+}
+
+.can-not-buy {
+  color: red;
+}
+
+.order {
+  padding: 24px;
+  background-color: #f1f1f1;
+}
+
+.order-header {
+  font-family: "Raleway",sans-serif;
+}
+
+.order-body {
+  padding: 24px;
+}
+
+.nice-font {
+  font-family: "Raleway",sans-serif;
+}
+
+.upper {
+  text-transform: uppercase;
+}
+
+.checkout-form {
+  width: 50%;
+  margin: 0px auto;
+}
+
+.padding-top {
+  padding-top: 16px;
+}
+
+.order-history {
+  background-color: white;
+  padding-top: 24px;
+  padding-bottom: 12px;
+  padding-left: 12px;
+  padding-right: 12px;
 }

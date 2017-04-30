@@ -7,6 +7,7 @@
 	use Symfony\Component\HttpFoundation\Request;
 	use AppBundle\Form\ProductForm;
 	use AppBundle\Entity\Product;
+	use Symfony\Component\HttpFoundation\File\File;
 
 	class ProductsController extends Controller {
 
@@ -21,8 +22,16 @@
 			$cat = $em->getRepository('AppBundle:Category')->findOneBy(['id' => $catid]);
 			$products = $cat->getProducts();
 
+			// On top/on bottom products
+			$onTop = $em->getRepository('AppBundle:Product')->onTop($cat);
+			$onBottom = $em->getRepository('AppBundle:Product')->onBottom($cat);
+
 			// Display template
-			return $this->render('admin/products.htm', ['cat' => $cat, 'products' => $products]);
+			return $this->render('admin/products.htm', [
+				'cat' => $cat, 'products' => $products,
+				'onTop' => $onTop, 
+				'onBottom' => $onBottom
+			]);
 		}
 
 		/**
@@ -52,16 +61,31 @@
 					$product->setPromo(0);
 				}
 
+				if($form['photoform']->getData() != null) {
+
+		            $file = $product->getPhotoform();
+
+		            // Generate a unique name for the file before saving it
+		            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+		            $file->move(
+		                $this->getParameter('prods_directory'),
+		                $fileName
+		            );
+
+		            $product->setPhoto($fileName);
+		        }
+
 				$cat = $em->getRepository('AppBundle:Category')->findOneBy(['id' => $request->get('category')]);
 				$product->setCategory($cat);
-				$nextOrd = $product->nextFreeOrd();
+				$nextOrd = $em->getRepository('AppBundle:Product')->nextFreeOrd();
 				$product->setOrd($nextOrd);
 				$em->persist($product);
 				$em->flush();
 
 				// Success message
 				$this->addFlash('success', 'Succesfully created product!');
-				return $this->redirect('/admin/categories');
+				return $this->redirect('/admin/products/'.$category->getId());
 			}
 
 			// Display template
@@ -85,7 +109,8 @@
 			$currentOrd = $prod->getOrd();
 
 			// Get next product
-			$nextProd = $em->getRepository('AppBundle:Product')->findOneBy(['id' => $prod->nextOrd()]);
+			$nextProdId = $em->getRepository('AppBundle:Product')->nextOrd($prod->getId());
+			$nextProd = $em->getRepository('AppBundle:Product')->findOneBy(['id' => $nextProdId]);
 			$nextOrd = $nextProd->getOrd();
 			
 			// Swap places
@@ -111,8 +136,9 @@
 			$prod = $em->getRepository('AppBundle:Product')->findOneBy(['id' => $id]);
 			$currentOrd = $prod->getOrd();
 
-			// Get next product
-			$prevProd = $em->getRepository('AppBundle:Product')->findOneBy(['id' => $prod->prevOrd()]);
+			// Get previous product
+			$prevProdId = $em->getRepository('AppBundle:Product')->prevOrd($prod->getId());
+			$prevProd = $em->getRepository('AppBundle:Product')->findOneBy(['id' => $prevProdId]);
 			$prevOrd = $prevProd->getOrd();
 			
 			// Swap places
@@ -137,6 +163,14 @@
 
 			// Get the product
 			$product = $em->getRepository('AppBundle:Product')->findOneBy(['id' => $id]);
+
+			// Get product's photo
+			$photo = $product->getPhoto();
+
+			// Delete prod photo
+			if($photo != null) {
+				unlink($this->getParameter('prods_directory').'/'.$photo);
+			}
 
 			$em->remove($product);
 	    	$em->flush();
@@ -172,19 +206,40 @@
 				}
 
 				$cat = $em->getRepository('AppBundle:Category')->findOneBy(['id' => $request->get('category')]);
+
+				// Attach photo
+				if($form['photoform']->getData() != null) {
+
+					if(strlen($product->getPhoto()) > 0) {
+						unlink($this->getParameter('prods_directory').'/'.$product->getPhoto());
+					}
+
+		            $file = $product->getPhotoform();
+
+		            // Generate a unique name for the file before saving it
+		            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+		            $file->move(
+		                $this->getParameter('prods_directory'),
+		                $fileName
+		            );
+
+		            $product->setPhoto($fileName);
+		        }
+
 				$product->setCategory($cat);
-				$nextOrd = $product->nextFreeOrd();
-				$product->setOrd($nextOrd);
+
 				$em->persist($product);
 				$em->flush();
 
 				// Success message
-				$this->addFlash('success', 'Succesfully created product!');
-				return $this->redirect('/admin/categories');
+				$this->addFlash('success', 'Succesfully edited product!');
+				return $this->redirect('/admin/products/'.$cat->getId());
 			}
 
 			// Display template
 			return $this->render('admin/product.htm', [
+				'prod'			=> $product,
 				'category'		=> $category,
 				'categories' 	=> $categories,
 				'form' 			=> $form->createView(),

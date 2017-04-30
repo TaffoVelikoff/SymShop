@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Product;
@@ -36,6 +37,10 @@ class ProductForm extends AbstractType
             'label' => 'Price (BGN)',
             'required' => false,
             'attr' => array('class' => 'form-control'),
+        ))
+        ->add('photoform', FileType::class, array(
+            'label' => 'Photo (PNG/JPG file)',
+            'required' => false,
         ))
         ->add('save', SubmitType::class, array(
             'attr' => array('class' => 'btn btn-success', 'style' => 'margin-top: 24px;'),

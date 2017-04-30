@@ -33,6 +33,15 @@ class Setting
      */
     private $globalpromo;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Category", mappedBy="site")
+     */
+    private $categories;
+
+    public function __construct() {
+        $this->categories = new ArrayCollection();
+    }
+
     // Setters
     public function setShopname($shopname) {
         $this->shopname = $shopname;

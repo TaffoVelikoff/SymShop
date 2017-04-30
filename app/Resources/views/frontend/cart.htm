@@ -1,0 +1,106 @@
+{% extends('frontend/base.htm') %}
+
+{% block page %}
+    <div class="maincontent-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                	<h1> MY CART </h1>
+                </div>
+            </div>
+
+            {% if cprodCount is defined and cprodCount > 0 %}
+	            <div class="row">
+	            	<div class="prodlist">
+
+	            		<div class="row cart-product text-center">
+
+		            		<div class="col-md-2 prod-column">
+		            			
+		            		</div>
+
+		            		<div class="col-md-4 prod-column" style="text-align: left;">
+		            			<b>PRODUCT</b>
+		            		</div>
+
+		            		<div class="col-md-2 prod-column">
+		            			<b>PRICE</b>
+		            		</div>
+
+		            		<div class="col-md-1 prod-column">
+		            			<b>QUANTITY</b>
+		            		</div>
+
+		            		<div class="col-md-2 prod-column">
+		            			<b>TOTAL PRICE</b>
+		            		</div>
+
+		            		<div class="col-md-1 prod-column">
+		            			<b>ACTIONS</b>
+		            		</div>
+
+		            	</div>
+
+	            		{% for prod in cartProds %}
+		            		<div class="row cart-product">
+
+			            		<div class="col-md-2 prod-column">
+			            			<img src="{{ asset('uploads/products_photos/' ~ prod.product.photo) }}" alt="{{ prod.product.name }}" class="catalog-image" style="max-height: 100px;">
+			            		</div>
+
+			            		<div class="col-md-4 prod-column" style="text-align: left;">
+			            			<a href="/product/{{ prod.product.id }}" class="bigger">{{ prod.product.name }}</a>
+			            		</div>
+
+			            		<div class="col-md-2 prod-column">
+			            			{{ prod.price|number_format(2) }} BGN
+			            		</div>
+
+			            		<div class="col-md-1 prod-column">
+			            			x {{ prod.quantity }}
+			            		</div>
+
+			            		<div class="col-md-2 prod-column">
+			            			{{ prod.totalPrice|number_format(2) }} BGN
+			            		</div>
+
+			            		<div class="col-md-1 prod-column">
+			            			<a href="/remove_from_cart/{{ prod.id }}">
+			            				<i class="fa fa-trash"></i>
+			            			</a>
+			            		</div>
+
+			            	</div>
+		            	{% endfor %}
+
+	            	</div>
+
+	            	<div class="row total-cart-price">
+	            		<div class="col-md-12 text-right">
+	            			<h3 class="total-price">TOTAL PRICE: <span class="can-{% if app.user.cash < totalPrice %}not-{% endif %}buy">{{ totalPrice|number_format(2) }}</span> BGN</h3>
+	            		</div>
+
+	            		<div class="row text-right">
+			            	
+		            		<a href="/checkout" class="add_to_cart_button">
+		            			<i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+		            			&nbsp;&nbsp;Checkout
+		            		</a> 
+		            		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+		            	</div>
+	            	</div>
+
+	            	
+	            </div>
+	        {% else %}
+	        	<div class="row">
+	            	<div class="prodlist">
+	            		Your cart is empty ...
+	            	</div>
+	            </div>
+	        {% endif %}
+        </div>
+    </div>
+{% endblock %}

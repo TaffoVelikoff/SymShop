@@ -20,8 +20,16 @@
 			// Get all categories
 			$categories = $em->getRepository('AppBundle:Category')->findBy([], ['ord' => 'DESC']);
 
+			// On top/on bottom categories
+			$onTop = $em->getRepository('AppBundle:Category')->onTop();
+			$onBottom = $em->getRepository('AppBundle:Category')->onBottom();
+
 			// Display template
-			return $this->render('admin/categories.htm', ['categories' => $categories]);
+			return $this->render('admin/categories.htm', [
+				'categories' => $categories, 
+				'onTop' => $onTop, 
+				'onBottom' => $onBottom
+			]);
 		}
 
 		/**
@@ -44,7 +52,7 @@
 					$category->setPromo(0);
 				}
 
-				$nextOrd = $category->nextFreeOrd();
+				$nextOrd = $em->getRepository('AppBundle:Category')->nextFreeOrd();
 				$category->setOrd($nextOrd);
 				$em->persist($category);
 				$em->flush();
@@ -70,9 +78,10 @@
 			$currentOrd = $cat->getOrd();
 
 			// Get next category
-			$nextCat = $em->getRepository('AppBundle:Category')->findOneBy(['id' => $cat->nextOrd()]);
+			$nextCatId = $em->getRepository('AppBundle:Category')->nextOrd($cat->getId());
+			$nextCat = $em->getRepository('AppBundle:Category')->findOneBy(['id' => $nextCatId]);
 			$nextOrd = $nextCat->getOrd();
-			
+
 			// Swap places
 			$nextCat->setOrd($currentOrd);
 			$em->persist($nextCat);
@@ -96,8 +105,9 @@
 			$cat = $em->getRepository('AppBundle:Category')->findOneBy(['id' => $id]);
 			$currentOrd = $cat->getOrd();
 
-			// Get next category
-			$prevCat = $em->getRepository('AppBundle:Category')->findOneBy(['id' => $cat->prevOrd()]);
+			// Get previous category
+			$prevCatId = $em->getRepository('AppBundle:Category')->prevOrd($cat->getId());
+			$prevCat = $em->getRepository('AppBundle:Category')->findOneBy(['id' => $prevCatId]);
 			$prevOrd = $prevCat->getOrd();
 			
 			// Swap places
@@ -122,6 +132,22 @@
 
 			// Get the category
 			$category = $em->getRepository('AppBundle:Category')->findOneBy(['id' => $id]);
+
+			// Get products
+			$products = $category->getProducts();
+			foreach($products as $prod) {
+
+				// Get product's photo
+				$photo = $prod->getPhoto();
+
+				// Delete prod photo
+				if($photo != null) {
+					unlink($this->getParameter('prods_directory').'/'.$photo);
+				}
+
+				$em->remove($prod);
+				$em->flush();
+			}
 
 			$em->remove($category);
 	    	$em->flush();
@@ -150,8 +176,6 @@
 					$category->setPromo(0);
 				}
 
-				$nextOrd = $category->nextFreeOrd();
-				$category->setOrd($nextOrd);
 				$em->persist($category);
 				$em->flush();
 

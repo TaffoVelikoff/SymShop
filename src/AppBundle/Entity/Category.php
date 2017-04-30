@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CategoryRepository")
@@ -32,6 +33,11 @@ class Category
      * @ORM\OrderBy({"ord"="DESC"})
      */
     private $products;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Setting", inversedBy="categories")
+     */
+    private $site = null;
 
     /**
      * @ORM\Column(type="integer")
@@ -89,61 +95,9 @@ class Category
         return count($this->products);
     }
 
-    // Next free order
-    public function nextFreeOrd()
-    {   
-        global $kernel;
-        $em = $kernel->getContainer()->get( 'doctrine.orm.entity_manager' );
-
-        // Get max ord
-        $maxord = $em->createQueryBuilder()
-                ->select('MAX(b.ord)')
-                ->from('AppBundle:Category', 'b')
-                ->getQuery()
-                ->getSingleScalarResult();
-
-        return($maxord + 1);
+    // Site
+    public function getSite() {
+        return $this->site;
     }
 
-    // Select next order
-    public function nextOrd() {
-        global $kernel;
-        $em = $kernel->getContainer()->get( 'doctrine.orm.entity_manager' );
-
-        // Get max ord
-        $next = $em->createQueryBuilder()
-                ->select('c.id')
-                ->from('AppBundle:Category', 'c')
-                ->where('c.ord > '.$this->getOrd())
-                ->addOrderBy('c.ord', 'ASC')
-                ->setMaxResults(1)
-                ->getQuery()->getResult();
-
-        if(count($next) > 0) {
-            return $next[0]['id'];
-        } else {
-            return null;
-        }
-    }
-
-    // Select previous order
-    public function prevOrd() {
-        global $kernel;
-        $em = $kernel->getContainer()->get( 'doctrine.orm.entity_manager' );
-
-        // Get max ord
-        $next = $em->createQueryBuilder()
-                ->select('c.id')
-                ->from('AppBundle:Category', 'c')
-                ->where('c.ord < '.$this->getOrd())
-                ->addOrderBy('c.ord', 'DESC')
-                ->setMaxResults(1)
-                ->getQuery()->getResult();
-
-        if(count($next) > 0) {
-            return $next[0]['id'];
-        } else {
-            return null;
-        }
-    }
 }

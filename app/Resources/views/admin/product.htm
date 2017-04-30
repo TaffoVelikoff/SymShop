@@ -26,6 +26,12 @@
                         </select>
                     </div>
                 </div>
+
+                {% if prod is defined %}
+                    {% if prod.photo is not empty %}
+                        <img src="{{ asset('uploads/products_photos/' ~ prod.photo) }}" class="prod-photo-admin">
+                    {% endif %}
+                {% endif %}
             {{ form_end(form) }}
     	</div>
     </div>

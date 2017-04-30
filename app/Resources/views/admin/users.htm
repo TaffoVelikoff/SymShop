@@ -6,6 +6,12 @@
             {{ msg }}
         </div>
     {% endfor %}
+    
+    {% for msg in app.session.flashBag.get('success') %}
+        <div class="login-err text-success">
+            {{ msg }}
+        </div>
+    {% endfor %}
 
 	<div class="block-header">
         <h2>Our users</h2>

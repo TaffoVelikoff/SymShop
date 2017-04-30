@@ -11,13 +11,15 @@
             </div> 
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/">Home</a></li>
+                    
+                    <li {% if current_template == 'frontend/index' %} class="active" {% endif %}><a href="{{ url('home') }}">Home</a></li>
+
                     {% for cat in shopCats %}
-                        <li><a href="/category/{{ cat.id }}">{{ cat.name }}</a></li>
+                        <li {% if category is defined and category.id ==  cat.id %} class="active" {% endif %}><a href="/category/{{ cat.id }}">{{ cat.name }}</a></li>
                     {% endfor %}
                     
                     {% if app.user %}
-                        <li><a href="">Cart</a></li>
+                        <li {% if current_template == 'frontend/cart' or current_template == 'frontend/checkout' %} class="active" {% endif %}><a href="{{ url('cart') }}">Cart</a></li>
                     {% endif %}
                 </ul>
             </div>  

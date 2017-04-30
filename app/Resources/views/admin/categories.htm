@@ -45,12 +45,12 @@
                                     {{ cat.getProductsCount() }}
                                 </td>
                                 <td style="vertical-align: middle; width: 3%;">
-                                    {% if cat.nextOrd() %}
+                                    {% if cat.ord != onTop %}
                                         <a href="/admin/category/moveup/{{ cat.id }}"><i class="fa fa-arrow-up fa-x2"></i></a>
                                     {% endif %}
                                 </td>
                                 <td style="vertical-align: middle; width: 3%;">
-                                    {% if cat.PrevOrd() %}
+                                    {% if cat.ord != onBottom %}
                                         <a href="/admin/category/movedown/{{ cat.id }}"><i class="fa fa-arrow-down fa-x2"></i></a>
                                     {% endif %}
                                 </td>

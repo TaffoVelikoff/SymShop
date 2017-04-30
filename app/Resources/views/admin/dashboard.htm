@@ -1,7 +1,47 @@
 {% extends('admin/base.htm') %}
 
 {% block page %}
-	<div class="block-header" style="height: 320px;">
-        <h2>DASHBOARD</h2>
+	<div class="block-header">
+        <h2>ORDERS</h2>
     </div>
+
+
+    <div class="row">
+    	<div class="col-md-12">
+    		<div class="body table-responsive">
+                <table class="table table-bordered table-hover">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User</th>
+                           	<th>Delivery Phone</th>
+                            <th>Products</th>
+                            <th>Price</th>
+                           	<th>Confirmed</th>
+                           	{% if is_granted('ROLE_ADMIN') %}
+                                <th>Actions</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    	{% for cart in carts %}
+	                    	<tr>
+		                    	<td>{{ cart.id }}</td>
+		                        <td><a href="/admin/user/{{ cart.user.id }}">{{ cart.user.fullname }}</a> (ID: {{ cart.user.id }})</td>
+		                       	<td>{{ cart.deliveryPhone }}</td>
+                                <td>{{ cartRepo.getProductsCount(cart.id)}}</td>
+                                <td>{{ cartRepo.getTotalPrice(cart.id)|number_format(2) }} BGN</td>
+		                       	<td>{{ cart.confirmed('d M Y') }}</td>
+		                       	{% if is_granted('ROLE_ADMIN') %}
+                                    <td><a href="/admin/remove_cart/{{ cart.id }}">REMOVE</a></td>
+                                {% endif %}
+		                    </tr>
+		                {% endfor %}
+                    </tbody>
+                </table>
+    	</div>
+    </div>
+
 {% endblock %}
